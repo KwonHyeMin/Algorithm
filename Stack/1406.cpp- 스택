@@ -1,0 +1,88 @@
+/*
+1. 에디터 - 스택을 이용한 풀이/list이용한 풀이 가능
+
+2. 계속 에러났었는데 알고보니
+stack처음 선언할 때 stack<int>s;라고 해서
+char값이 모두 int로저장되는 거였음
+char값을 stack에 쌓을 땐 stack<char>s;해야함
+
+3. stack안의 것들을 출력하는 방법 배우기
+
+4. 근데 이상한 점은 왜 char로 계속 받아들여도 \n로 인해 입력 잘못받는 경우가 안 생기지..? 왜 언제는 getchar()또는 cin.igmore()해줘야 하는데.. 얘네는 안그러지..?
+
+*/
+
+#include <iostream>
+#include <stack>
+//#include <queue>
+#include <cstdio>
+#include <string>
+
+using namespace std;
+
+int main() {
+  //커서 왼/오 구별하여 스택생성
+  stack<char>left, right;
+  string str;
+  cin >> str;
+  //문자열 입력받아 스택에 push
+  for(char ch:str){
+    left.push(ch);
+  }
+  //반복될 
+  int tc;
+  scanf("%d",&tc);
+  //getchar();
+  //getchar();
+  
+
+  while(tc--){
+    cin.ignore();
+    string order;
+    cin >> order;
+    cout << order <<"\n";
+    //getline(cin, order);
+    
+    if(order=="P"){
+      char ch;
+      cin >> ch;
+      cout << ch <<"\n";
+      //cin.ignore();
+      left.push(ch);
+
+    }
+    else if(order=="L"){
+      if(!left.empty()){
+        right.push(left.top());
+        left.pop();
+      }
+      
+    }
+    else if(order =="D"){
+      if(!right.empty()){
+        left.push(right.top());
+        right.pop();
+      }
+    }
+    else if(order=="B"){
+      if(!left.empty()){
+        left.pop();
+      }
+    }
+    else{
+
+      printf("입력이상해\n");
+    }
+  }
+  while(!left.empty()){
+    right.push(left.top());
+    left.pop();
+  }
+  while(!right.empty()){
+    //cout << "sfs" <<"\n";
+    //cout <<right.top();
+    cout <<right.top();
+    right.pop();
+  }
+  cout << "\n";    
+}
