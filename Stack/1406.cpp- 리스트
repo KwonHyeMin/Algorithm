@@ -1,0 +1,199 @@
+//전역은 초기화 불필요
+//지역은 초기화 필요
+/*
+list의 함수들에 대한 정리 필요!
+1. vector.erase(it) : 문제 x => it의 공백이 다음 원소로 채워짐
+but list.erase(it) : 문제 발생!!
+=> erase의 return값이 다음 원소이므로 return값 활용하기!
+ex) it=list.erase(it); 또는 list.erase(it++);
+
+2. list.insert(it,K);
+=> it가 가리키는 위치에 K삽입
++ 새로삽입한 원소 K를 가리키는 it를 반환(저절로 +1)
+*/
+
+
+/*
+-2. cin.ignore();
+=> cin다음에 getline써야할때 getline쓰기전에 사용!
+즉, getline은 \n까지가져가서 한번 getline하면 남은게 없을 거니까
+while문 밖에서 cin하자마자 cin.ignore1번만 하기!
+
+-1. container
+: vector, list, set, map, queue등
+begin(), end()로 표현가능 -> [begin, end)
+=> 그래서.. 이문제를 list로 해결가능했다..
+list는 
+
+0. iterator(반복자)
+container(vector,list)에 저장된 원소를 접근하는 방법 제공.
+- * 연산자로 container내부 원소 접근 가능
+- ++ != == 등으로 다음 원소로 이동 및 모든 원소 순회 가능
+
+- end()함수 : 맨마지막 원소의 바로 다음 원소 가리킴
+
+ex1) 포인터선언하고 배열에서 포인터처럼 반복자 사용
+int ari[]={1,2,3,4,5}; 
+int *it; 
+for (it=&ari[0];it!=&ari[5];it++) { 
+  printf("%d\n",*it); 
+}
+ex2) 벡터의 한 요소 가리키는 반복자
+vector<T>::iterator it;
+=> 벡터의 한 요소를 가리키는 반복자를 그 타입으로 선언
+
+int ari[]={1,2,3,4,5}; 
+vector<int> vi(&ari[0],&ari[5]); 
+vector<int>::iterator it; 
+for (it=vi.begin();it!=vi.end();it++) { 
+  printf("%d\n",*it); 
+}
+ex3) list를 이용한 반복자(vector와동일)
+int ari[]={1,2,3,4,5}; 
+list<int> li(&ari[0],&ari[5]); 
+list<int>::iterator it; 
+for (it=li.begin();it!=li.end();it++) { 
+  printf("%d\n",*it); 
+}
+
++ vector vs list
+: erase/push_back해도 list는 다른 요소에 대한 반복자 무효화 하지않고 삭제,추가된 요소만 반복자만 무효화되는데, vector는 무언가 삭제되면 공간확보위해 전체 vector가 재할당되어 모든 반복자가 무효화된다.
+
+
+1. auto키워드
+: 변수의 형식이 자동으로 결정된다(타입추론)
+
+2. iterator를 사용하기 위한 변수
+-> iterator의 타입이 복잡해서 사용하기 힘들었음!과거에!
+=> 지금은 auto사용해 자동으로 iterator의 타입 추론
+=> auto는 초기값 지정하는 변수 선언에만 사용가능
+
+ex1) 
+vecor<int> v;
+for(auto it:vec){
+
+}
+=> 어차피 .begin()부터 .end()까지 일테니까
+auto사용해서 패턴화한것!
+
+ex2)
+vecor<int> v;
+for(auto it=v.begin();it!=end();++it){
+
+}
+=>iterator의 타입을 자동으로 추론하게함!
+
+**좋은 사이트
+https://bab2min.tistory.com/325
+
+3. char는 ''로 표현하고
+string은 ""로 표현해야됨
+
+4. string접근 나누는 또다른 방법
+=> string입력 들어와서 한 단어씩 볼 때..걍 index로 접근
+
+for (i = 0; i < N; i++) {
+        getline(cin, input);
+        if (input[0] == 'L') {
+            if (iter != l.begin()) iter--;
+        }
+        else if (input[0] == 'D') {
+            if (iter != l.end()) iter++;
+        }
+        else if (input[0] == 'B') {
+            if (iter != l.begin()) iter = l.erase(--iter);
+        }
+        else {
+            l.insert(iter, input[2]);
+        }
+    }
+
+5. list에서 
+insert의 return값은 삽입원소iterator
+erase의 return값은 삭제원소의 다음원소
+참고: https://blockdmask.tistory.com/76
+https://hyeonstorage.tistory.com/326
+
+
+
+*/
+
+
+#include <iostream>
+#include <stack>
+#include <list>
+
+#include <cstdio>
+#include <string>
+
+using namespace std;
+
+
+
+int main(){
+  //ios_base::sync_with_stdio(false);
+  //cin.tie(NULL);
+  //cout.tie(NULL);
+  //쓸 때 주의사항 : scanf,printf와 섞어쓰지말기/싱글쓰레드환경에서만 사용
+  string s;
+  int n;
+  list<char> L;
+
+  cin >> s;
+  //cin.ignore();
+  cin >> n;
+  cin.ignore();
+  //cout << s <<" " << n <<"\n";
+  for(char ch:s){
+    L.push_back(ch);
+  }
+  /*
+  list<char>::iterator it;
+  for(it=L.begin() ; it!=L.end();it++){
+    cout << *it;
+  }
+  cout <<"\n";
+  */
+  //auto position = L.end();
+  list<char>::iterator position = L.end();
+  while(n--){
+    //char a;
+    //cin >> a;
+    string a;
+    getline(cin, a);
+    //cout << a <<"\n";
+    if(a[0]=='P'){
+      cout << a[2] <<"\n";
+      L.insert(position, a[2]);
+      //position++;
+    }
+    else if(a[0] == 'L'){
+      if(position!=L.begin()){
+        position--;
+      }
+
+    }
+    else if(a[0]=='D'){
+      if(position!=L.end())
+        position++;
+    }
+    else if(a[0]=='B'){
+      if(position!=L.begin()){
+        position = L.erase(--position);
+      }
+    }
+    else{
+      cout << a[0] <<"\n";
+      cout << "이상한출력\n";
+    }
+
+    for(char ch:L){
+      cout << ch;
+    }
+  
+    cout << "\n";
+  }
+  
+  
+
+}
