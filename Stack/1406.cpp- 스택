@@ -9,7 +9,7 @@ char값을 stack에 쌓을 땐 stack<char>s;해야함
 3. stack안의 것들을 출력하는 방법 배우기
 
 4. 근데 이상한 점은 왜 char로 계속 받아들여도 \n로 인해 입력 잘못받는 경우가 안 생기지..? 왜 언제는 getchar()또는 cin.igmore()해줘야 하는데.. 얘네는 안그러지..?
-
+가설 1. cin cin만 있을 때는 상관없는데 cin쓴다음에 getline쓸 때 문제가 있을 것이다.
 */
 
 #include <iostream>
