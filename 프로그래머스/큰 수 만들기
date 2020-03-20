@@ -1,0 +1,68 @@
+
+#include <iostream>
+#include <cstdio>
+#include <string>
+#include <vector>
+#include <stack>
+#include<typeinfo>
+
+using namespace std;
+
+string solution(string number, int k) {
+    int a = k;
+    int n = number.size();
+    cout << n << "\n";
+    //int a=0;
+    stack<char> s;
+    cout << typeid(number[0]).name() << "\n";
+    s.push(number[0]);
+    cout << s.empty();
+    cout << s.top();
+    for (int i = 1; i < n; i++) {
+
+        while (k >0 && !s.empty()) {
+            cout << "i= "<<i << "\n";
+            cout << k << "\n";
+            if (s.top() >= number[i]) {
+                cout << "top = "<<s.top() <<"\n";
+                break;
+            }
+
+            s.pop();
+            k -= 1;
+
+        }
+        s.push(number[i]);
+
+    }
+    cout << "I am here\n";
+    cout << n - a << "\n";
+    cout << s.size() << "\n";
+
+    while (s.size() > n - a) {
+        cout << "I am here\n";
+
+        s.pop();
+    }
+
+    string answer = "";
+
+    while (!s.empty()) {
+        answer = s.top() + answer;
+        s.pop();
+    }
+    return answer;
+
+}
+
+int main() {
+    int k;
+    string str;
+    cin >> str;
+    cin >> k;
+
+    cout << str << " " << k << "\n";
+
+    cout << solution(str, k);
+
+}
