@@ -1,3 +1,12 @@
+/*
+1. #include<typeinfo>
+
+typeid(number[0]).name()
+=> 이렇게하면 타입 
+
+
+*/
+
 
 #include <iostream>
 #include <cstdio>
