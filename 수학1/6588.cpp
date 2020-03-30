@@ -75,3 +75,115 @@ STL 간단 정리
 - 일반적으로는 vector가 list보다 메모리 더 적게 사용! 왜냐면 vector는 연속적인 주소에 할당되므로 list처럼 next등의 추가적인 다른 변수 가질 필요 없거든!
 
 */
+
+/*
+<소수 찾는 법>
+1. 어떤 수 N이 소수인지, 아닌지 판별법
+- 단순히 2~n-1까지의 수중 n%i==0이면 false라고 표시
+-> 시간 복잡도 : O(n)
+---<더빠른법>---
+- 2~n/2까지의 수중 n%i==0인지 확인
+---<더빠른법>---
+- 2~루트 n가지의 수중 ...
+
+2. 특정 구간에 있는 N들이 소수인지, 아닌지 판별법
+=> 에라토스테네스의 체로 내가 원하는 전체 구간에서 
+소수인지 아닌지 boolean값으로 판별
+
+*/
+
+/*
+
+처음에 시간초과 난 이유: MAX가 1000000라서!
+-> 중간 for문에 j=i*i에서 n까지 할 떄 
+i*i하면 overflow발생하니까 i*2로 바꾸기!
+
+*/
+
+#include <iostream>
+#include <cstdio>
+
+using namespace std;
+//int list;
+//vector<int>v;
+//원래n은 1000000까지인데 나는 그중 홀수인 것들만 소수인지 알고 싶음
+#define MAX 1000000
+
+//int isPrime[MAX];
+int pn = 0;
+bool check[MAX];//지워진 애면 true
+int n = MAX;
+
+void getPrime() {
+    //printf("hello11111\n");
+
+    for (int i = 2; i <= n; i++) {
+        if (check[i] == false) {
+            //isPrime[pn++]=i;
+            for (int j = i * 2; j <= n; j += i) {
+                //2x2, 2x3,2x4,2x5,2x6,,
+                //지우기
+                check[j] = true;
+            }
+        }
+    }
+    //printf("ITs done\n");
+}
+
+/*
+void getPrime(){
+  //0 * 2 + 3->3
+  //1 *2 +3->5
+  //2->7
+
+  isPrime[0]=0;
+  for(int i=5;i<MAX;i=i+2){
+    for(int j=3;j<i;j=j+2){
+      //소수가 아니라면 그 값을 1로!
+      //소수면 0으로!
+      if(i%j==0){
+        isPrime[(i-3)/2]=1;
+        break;
+      }
+    }
+  }
+}
+*/
+
+void solution(int a) {
+    //getPrime();
+    int b = 0, c = 0;
+    int i;
+
+    for (int i = 3; i <= n; i += 2) {
+        if (!check[i] && !check[a - i]) {
+            b = i;
+            c = a - i;
+            break;
+        }
+    }
+
+
+    if (b == 0 && c == 0) {
+        printf("Goldbach's conjecture is wrong.\n");
+    }
+    else
+        printf("%d = %d + %d\n", a, b, c);
+}
+
+int main() {
+    getPrime();
+    //printf("hello\n");
+
+    while (1) {
+        int a;
+        scanf("%d", &a);
+        //cout << a;
+        if (a == 0) {
+            //printf("hello\n");
+            break;
+        }
+        solution(a);
+
+    }
+}
