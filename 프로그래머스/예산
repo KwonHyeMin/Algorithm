@@ -1,0 +1,42 @@
+/*
+이진탐색처럼 문제풀기!
+특정 숫자를 찾아야 할 때 0~상한선, 또는 하한선~최대 까지 범위를 정한후
+while문을 반복하며 mid에 대해 그 값의 여부를 확인한 후 계속 간격을 좁혀나가기!
+만약 더 큰 수가 필요하면 start = mid+1이고 
+만약 더 작은 수가 필요하면 end = mid-1로 해서
+
+start > end가 될 때까지 반복!
+그러니 while문 안에는 (start<=end)로!
+
+*/
+
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+int solution(vector<int> budgets, int M) {
+    int answer = 0;
+    int start = 0;
+    int end = *max_element(budgets.begin(),budgets.end());
+    int mid;
+    while(start <=end){
+        mid = (start+end)/2;
+        int sum=0;
+        for(int i=0;i<budgets.size();i++){
+            if(budgets[i]>mid)
+                sum+=mid;
+            else
+                sum+=budgets[i];
+        }
+        if(sum<M){
+            start= mid+1;           
+        }
+        else{
+            end = mid-1;
+        }
+    }
+    //mid = (start+end)/2;
+    answer=end;
+    return answer;
+}
