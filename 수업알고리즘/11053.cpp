@@ -54,5 +54,6 @@ int main() {
   }
   //최장부분수열의 길이와 그 수열을 구하는 함수 호출
   longest_increasing_subseq(n);
+
   
 }
