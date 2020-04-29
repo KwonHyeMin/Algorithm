@@ -1,0 +1,49 @@
+//재귀함수로 풀기
+// top down방식
+#include<cstdio>
+#include<iostream>
+
+using namespace std;
+int dp[11]={0,};
+
+int sol(int n){
+  if(n==1){
+    
+    return 1;
+  }
+  else if(n==2){
+    //
+    return 2;
+  }
+  else if(n==3){
+    //dp[3]=4;
+    return 4;
+  }
+  else{
+    if(dp[n]>0){
+      return dp[n];
+    }
+    else{
+      dp[n]=sol(n-1)+sol(n-2)+sol(n-3);
+      return dp[n];    
+    }
+  }
+
+}
+
+int main(){
+  int tn;
+  dp[1]=1;
+  dp[2]=2;
+  dp[3]=4;
+  scanf("%d",&tn);
+  for(int i=0;i<tn;i++){
+    int n;
+    scanf("%d",&n);
+
+    int answer=sol(n);
+
+    printf("%d\n",answer);  
+  }
+
+}
