@@ -1,0 +1,46 @@
+/*
+조금 다른 방법으로 풀어보기!
+
+최소값에는 d[]값을 MAX로 설정해도 되지만
+경우의 수의 경우에는 d[]값을 -1로 초기화해야 편하다!
+
+최소값
+1. 우선 -1로 초기화
+2. 만약 값이 -1이어서 첫 대입이 필요하거나
+그 값이 원래 조건보다 커서 업데이트가 필요한경우
+-> 그 경우 업데이트!
+
+*/
+
+#include<cstdio>
+#include<iostream>
+#include <algorithm>
+
+using namespace std;
+
+//dp[n] : n을 1로 만드는 최소 연산 횟수
+int dp[1001]={0,};
+
+int main(){
+  int tn;
+  int p[1000]={0,};
+  scanf("%d",&tn);
+
+  for(int i=1;i<=tn;i++){
+    scanf("%d",&p[i]);
+  }
+  for(int i=1;i<=tn;i++){
+    dp[i]=-1;
+  }
+  dp[1]=p[1];
+  dp[0]=0;
+  for(int i=2;i<=tn;i++){
+    for(int j=1;j<=i;j++){
+      if(dp[i]==-1 || dp[i]>dp[i-j]+p[j])
+        dp[i]=dp[i-j]+p[j];
+    }
+  }  
+
+  printf("%d\n",dp[tn]);  
+  
+}
